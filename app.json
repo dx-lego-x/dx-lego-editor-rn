@@ -1,4 +1,7 @@
 {
   "name": "DxLegoEditorRN",
-  "displayName": "DxLegoEditorRN"
+  "displayName": "DxLegoEditorRN",
+  "packagerOpts": {
+    "config": "metro.config.js"
+  }
 }
