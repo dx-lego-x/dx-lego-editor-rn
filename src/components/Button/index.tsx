@@ -1,7 +1,7 @@
 import { GestureResponderEvent, StyleProp, StyleSheet, Text, TouchableHighlight, View, ViewStyle } from 'react-native'
 import React, { FC, ReactNode, useRef, useState } from 'react'
 import { BaseFCProps } from '@/types/base'
-import { COLOR_GRAY_5, COLOR_MAIN_UNDERLAY_COLOR } from '@/utils/styles/base-colors'
+import { COLOR_ARROW, COLOR_MAIN_BLACK, COLOR_MAIN_BLUE, COLOR_MAIN_BLUE_UNDERLAY, COLOR_MAIN_UNDERLAY, COLOR_WHITE } from '@/utils/styles/base-colors'
 import { DIVIDER_WIDTH, FONT_SIZE_DEFAULT, FONT_SIZE_NORMAL, FONT_SIZE_SMALL_XXX, PADDING_LARGE, PADDING_NARROW, PADDING_NARROW_XX, PADDING_NORMAL, RADIUS_NORMAL_X } from '@/utils/styles/base-dimens'
 import { ActivityIndicator } from '@ant-design/react-native'
 
@@ -9,28 +9,17 @@ export interface ButtonProps extends BaseFCProps {
   size?: 'compact' | 'small' | 'normal'
   onPress?: (e: GestureResponderEvent) => void
   icon?: ReactNode
-  borderless?: boolean
   loading?: boolean
   type?: 'round' | 'normal' | 'rect'
-  text?: string
+  text?: string,
+  theme?: 'default' | 'primary' | 'borderless'
 }
 
 const Button: FC<ButtonProps> = (props) => {
-  const { icon, children, onPress, size = 'normal', borderless, loading, type = 'normal', text } = props
+  const { style, icon, children, onPress, size = 'normal', loading, type = 'normal', text, theme = 'default' } = props
 
   const wrapperRef = useRef<TouchableHighlight | null>(null)
   const [wrapperWidth, setWrapperWidth] = useState<number>(0)
-
-  const genBorder = (): StyleProp<ViewStyle> | null => {
-    if (borderless) {
-      return null
-    }
-
-    return {
-      borderWidth: DIVIDER_WIDTH,
-      borderColor: COLOR_GRAY_5,
-    }
-  }
 
   const genBorderRadius = (): StyleProp<ViewStyle> => {
     if (type === 'round') {
@@ -60,17 +49,17 @@ const Button: FC<ButtonProps> = (props) => {
     }
 
     return {
-      paddingLeft: hPadding,
-      paddingRight: hPadding,
-      paddingTop: vPadding,
-      paddingBottom: vPadding,
+      paddingLeft: style?.paddingLeft !== undefined ? style.paddingLeft : hPadding,
+      paddingRight: style?.paddingRight !== undefined ? style.paddingRight : hPadding,
+      paddingTop: style?.paddingTop !== undefined ? style.paddingTop : vPadding,
+      paddingBottom: style?.paddingBottom !== undefined ? style.paddingBottom : vPadding,
     }
   }
 
   const renderIconAndLoading = () => {
     let _icon = null
     if (loading) {
-      _icon = <ActivityIndicator/>
+      _icon = <ActivityIndicator color={ theme === 'primary' ? COLOR_WHITE : undefined }/>
     } else if (icon) {
       _icon = icon
     }
@@ -98,6 +87,28 @@ const Button: FC<ButtonProps> = (props) => {
     }
   }
 
+  const genThemeStyles = (): StyleProp<ViewStyle> => {
+    if (theme === 'primary') {
+      return {
+        backgroundColor: COLOR_MAIN_BLUE,
+        borderWidth: DIVIDER_WIDTH,
+        borderColor: COLOR_MAIN_BLUE,
+      }
+    } else if (theme === 'borderless') {
+      return {
+        backgroundColor: COLOR_WHITE,
+        borderWidth: undefined,
+        borderColor: undefined,
+      }
+    }
+
+    return {
+      backgroundColor: COLOR_WHITE,
+      borderWidth: DIVIDER_WIDTH,
+      borderColor: COLOR_MAIN_UNDERLAY,
+    }
+  }
+
   return (
     <TouchableHighlight
       ref={ wrapperRef }
@@ -110,11 +121,12 @@ const Button: FC<ButtonProps> = (props) => {
       }}
       style={[
         styles.wrapper,
+        style,
         genBorderRadius(), 
-        genBorder(),
-        genPaddingBySize()
+        genPaddingBySize(),
+        genThemeStyles(),
       ]}  
-      underlayColor={ COLOR_MAIN_UNDERLAY_COLOR } 
+      underlayColor={ theme === 'primary' ? COLOR_MAIN_BLUE_UNDERLAY : COLOR_MAIN_UNDERLAY } 
       onPress={ onPress }
       >
       <>
@@ -124,7 +136,9 @@ const Button: FC<ButtonProps> = (props) => {
         {
           text !== undefined
           ?
-          <Text style={{ fontSize: genFontSize() }}>{ text }</Text>
+          <Text style={{ fontSize: genFontSize(), color: theme === 'primary' ? COLOR_WHITE : COLOR_MAIN_BLACK }}>
+            { text }
+          </Text>
           :
           children
         }
@@ -139,5 +153,6 @@ const styles = StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
   },
 })

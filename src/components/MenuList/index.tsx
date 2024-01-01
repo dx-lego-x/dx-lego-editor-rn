@@ -3,7 +3,7 @@ import React, { FC, ReactNode } from 'react'
 import { BaseFCProps } from '@/types/base'
 import { Icon } from '@ant-design/react-native'
 import { IconNames } from '@ant-design/react-native/lib/icon'
-import { COLOR_ARROW, COLOR_MAIN_GRAY, COLOR_MAIN_UNDERLAY_COLOR } from '@/utils/styles/base-colors'
+import { COLOR_ARROW, COLOR_MAIN_GRAY, COLOR_MAIN_UNDERLAY } from '@/utils/styles/base-colors'
 import Divider from '../Divider'
 import { FONT_SIZE_NORMAL, PADDING_NORMAL } from '@/utils/styles/base-dimens'
 
@@ -39,7 +39,7 @@ const MenuList: FC<MenuListProps> = ({ data }) => {
                 return (
                   <TouchableHighlight 
                     key={ index } 
-                    underlayColor={ COLOR_MAIN_UNDERLAY_COLOR } 
+                    underlayColor={ COLOR_MAIN_UNDERLAY } 
                     style={[styles.itemWrapper]}
                     onPress={ () => console.log(item, index, items) }
                     >

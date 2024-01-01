@@ -59,7 +59,7 @@ const ResponderTest = () => {
           const { index: index2 } = info
           return (
             <View style={ styles.tabWrapper }>
-              <Button borderless onPress={ () => setTabIndex(index2) }>
+              <Button theme='borderless' onPress={ () => setTabIndex(index2) }>
                 <Text style={{ fontWeight: tabIndex === index2 ? 'bold' : '100'}} >tab{ index2 }</Text>
               </Button>
             </View>

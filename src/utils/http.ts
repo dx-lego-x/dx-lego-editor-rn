@@ -22,8 +22,8 @@ const instance = axios.create({
   timeout: 30000
 })
 
-instance.interceptors.request.use(config => {
-  const token = localStorage.getItem(DEFAULT_TOKEN_KEY)
+instance.interceptors.request.use(async (config) => {
+  const token = await localStorage.getItem(DEFAULT_TOKEN_KEY)
   if (token) {
     if (!config.headers) {
       // @ts-ignore

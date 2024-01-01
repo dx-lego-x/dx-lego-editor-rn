@@ -1,16 +1,18 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, View } from 'react-native'
 import React, { FC } from 'react'
 import { BaseFCProps } from '@/types/base'
 import { COLOR_WHITE } from '@/utils/styles/base-colors'
-import { PAGE_PADDING_LEFT, PAGE_PADDING_RIGHT, PAGE_PADDING_TOP, POPUP_MIN_HEIGHT, RADIUS_NORMAL_XX } from '@/utils/styles/base-dimens'
+import { PADDING_EXTREME_LARGE, PAGE_PADDING_LEFT, PAGE_PADDING_RIGHT, POPUP_MIN_HEIGHT, RADIUS_NORMAL_XX } from '@/utils/styles/base-dimens'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import Header, { HeaderProps } from '@/components-biz/Header'
 
 export interface PopupWrapperProps extends BaseFCProps {
+  headerProps?: HeaderProps
   onClose: () => void
 }
 
 const PopupWrapper: FC<PopupWrapperProps> = (props) => {
-  const { style, children, onClose } = props
+  const { style, children, onClose, headerProps } = props
   const { bottom: safeBottom } = useSafeAreaInsets()
 
   return (
@@ -29,19 +31,27 @@ const PopupWrapper: FC<PopupWrapperProps> = (props) => {
         onPress={ onClose }
       />
       <View 
-        style={[
-          styles.content,
-          style, 
-          { 
-            paddingTop: style?.paddingTop !== undefined ? style.paddingTop : PAGE_PADDING_TOP,
-            paddingLeft: style?.paddingLeft !== undefined ? style.paddingLeft : PAGE_PADDING_LEFT,
-            paddingRight: style?.paddingRight !== undefined ? style.paddingRight : PAGE_PADDING_RIGHT,
-            paddingBottom: safeBottom, 
-            minHeight: style?.minHeight !== undefined ? style.minHeight : POPUP_MIN_HEIGHT 
-          }
-        ]}
+        style={[styles.root,]}
         >
-        { children }
+        <Header 
+          title={ headerProps?.title } 
+          backOptions={ headerProps?.backOptions ? headerProps.backOptions : { icon: 'close' }} 
+          />
+        <View 
+          style={[
+            styles.content,
+            style, 
+            { 
+              paddingTop: style?.paddingTop !== undefined ? style.paddingTop : PADDING_EXTREME_LARGE,
+              paddingLeft: style?.paddingLeft !== undefined ? style.paddingLeft : 0,
+              paddingRight: style?.paddingRight !== undefined ? style.paddingRight : 0,
+              paddingBottom: style?.paddingBottom !== undefined ? (style.paddingBottom as number) + safeBottom : PADDING_EXTREME_LARGE + safeBottom, 
+              minHeight: style?.minHeight !== undefined ? style.minHeight : POPUP_MIN_HEIGHT,
+            }
+          ]}
+          >
+          { children }
+        </View>
       </View>
     </View>
   )
@@ -55,14 +65,20 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
 
+  root: {
+    position: "absolute",
+    left: 0,
+    bottom: 0,
+    width: "100%",
+    backgroundColor: COLOR_WHITE,
+    zIndex: 1,
+    borderTopLeftRadius: RADIUS_NORMAL_XX,
+    borderTopRightRadius: RADIUS_NORMAL_XX,
+    paddingLeft: PAGE_PADDING_LEFT,
+    paddingRight: PAGE_PADDING_RIGHT
+  },
+
   content: {
-      position: "absolute",
-      left: 0,
-      bottom: 0,
-      width: "100%",
-      backgroundColor: COLOR_WHITE,
-      zIndex: 1,
-      borderTopLeftRadius: RADIUS_NORMAL_XX,
-      borderTopRightRadius: RADIUS_NORMAL_XX,
+    flex: 1
   },
 })

@@ -2,7 +2,7 @@ import React, { PropsWithChildren } from 'react'
 import { ImageStyle, TextStyle, ViewStyle } from 'react-native'
 
 export type BaseFCProps = PropsWithChildren<{
-  style?: ViewStyle & TextStyle & ImageStyle
+  style?: ViewStyle | TextStyle | ImageStyle & Array<ViewStyle | TextStyle | ImageStyle>
 }>
 
 export type Api<R = any, P = any> = (params?: P) => Promise<R>

@@ -8,11 +8,14 @@ import { isPageInStackBottom } from '@/utils/ui'
 import Button from '@/components/Button'
 import { Icon } from '@ant-design/react-native'
 import { FONT_SIZE_HEADER_TITLE, FONT_SIZE_NORMAL_XXX, FONT_WEIGHT_HEADER_TITLE } from '@/utils/styles/base-dimens'
+import { IconNames } from '@ant-design/react-native/lib/icon'
 
 export interface HeaderProps extends BaseFCProps {
   title?: string
   backOptions?: {
     hide?: boolean
+    icon?: IconNames
+    onBackPress?: () => void
   }
 }
 
@@ -21,16 +24,23 @@ const Header: FC<HeaderProps> = (props) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>()
 
   const renderBackButton = () => {
-    const { hide } = backOptions
+    const { hide, icon } = backOptions
     if (hide) {
       return null
     }
 
     if (!isPageInStackBottom(navigation)) {
       return (
-        <Button 
-          icon={ <Icon color={ COLOR_MAIN_GRAY } size={ FONT_SIZE_NORMAL_XXX } name='left' />} 
-          borderless
+        <Button
+          style={{ paddingLeft: 0, paddingRight: 0, paddingTop: 0, paddingBottom: 0 }} 
+          icon={ 
+            <Icon 
+              color={ COLOR_MAIN_GRAY } 
+              size={ FONT_SIZE_NORMAL_XXX } 
+              name={ icon ? icon :  'left'} 
+              />
+          } 
+          theme='borderless'
           size='compact' 
           onPress={ onBackPress }
           type='round' 
@@ -65,7 +75,7 @@ const styles = StyleSheet.create({
   root: {
     flexDirection: 'row',
     alignItems: 'center',
-    height: 40,
+    height: 50,
     justifyContent: 'center'
   },
   title: {

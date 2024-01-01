@@ -1,6 +1,6 @@
 import Button from '@/components/Button'
 import { UserProps } from '@/types/user'
-import { COLOR_MAIN_DIVIDER, COLOR_MAIN_UNDERLAY_COLOR } from '@/utils/styles/base-colors'
+import { COLOR_MAIN_DIVIDER, COLOR_MAIN_UNDERLAY } from '@/utils/styles/base-colors'
 import { DIVIDER_WIDTH, PADDING_LARGE } from '@/utils/styles/base-dimens'
 import { Icon } from '@ant-design/react-native'
 import { useNavigation } from '@react-navigation/native'
@@ -16,12 +16,12 @@ const UserHeader: FC<{ userProps: UserProps | null }> = ({ userProps }) => {
   }
 
   const onSettingPress = () => {
-    
+    navigation.push('AppSettings')
   }
 
   return (
     <View style={[styles.root]}>
-      <TouchableHighlight underlayColor={ COLOR_MAIN_UNDERLAY_COLOR } style={ styles.leftWrapper } onPress={ onUserInfoWrapperPress }>
+      <TouchableHighlight underlayColor={ COLOR_MAIN_UNDERLAY } style={ styles.leftWrapper } onPress={ onUserInfoWrapperPress }>
         <>
           <Image 
             style={ styles.headerIcon } 
@@ -39,7 +39,12 @@ const UserHeader: FC<{ userProps: UserProps | null }> = ({ userProps }) => {
       </TouchableHighlight>
       <View>
         <View>
-          <Button onPress={ onSettingPress } size='normal' icon={ <Icon name='setting' /> } borderless text='设置' />
+          <Button 
+            onPress={ onSettingPress } 
+            size='normal' 
+            icon={ <Icon name='setting' /> } 
+            theme='borderless' text='设置' 
+            />
         </View>
       </View>
     </View>

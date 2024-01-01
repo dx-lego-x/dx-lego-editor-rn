@@ -1,14 +1,16 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 const localStorage = {
-  getItem: (key: string) => {
-    return ''
+  getItem: async (key: string) => {
+    return await AsyncStorage.getItem(key)
   },
 
-  setItem: (key: string, value: string) => {
-    
+  setItem: async (key: string, value: string) => {
+    await AsyncStorage.setItem(key, value)
   },
 
-  removeItem: (key: string) => {
-    
+  removeItem: async (key: string) => {
+    await AsyncStorage.removeItem(key)
   }
 }
 

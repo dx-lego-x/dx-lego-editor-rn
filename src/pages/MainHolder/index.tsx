@@ -3,7 +3,6 @@ import React, { FC, useEffect } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Home from '../Home'
 import MyWorks from '../MyWorks'
-import Settings from '../Settings'
 import { baseTabNavigationOptions } from '@/utils/base-options'
 import { COLOR_MAIN_BLUE } from '@/utils/styles/base-colors'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -12,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { GlobalState } from '@/store'
 import { DynamicConstantsState, setBottomBarHeight } from '@/store/reducers/dynamic-constants.reducer'
 import { Icon } from '@ant-design/react-native'
+import Mine from '../Mine'
 
 const Tab = createBottomTabNavigator()
 
@@ -47,8 +47,8 @@ const MainHolder: FC = () => {
           tabBarIcon: ({ color, size }) => <Icon name='file-text' color={ color } size={ size } />
         }} />
       <Tab.Screen 
-        name='Settings' 
-        component={ Settings } 
+        name='Mine' 
+        component={ Mine } 
         options={{
           ...baseTabNavigationOptions,
           tabBarLabel: '我的',

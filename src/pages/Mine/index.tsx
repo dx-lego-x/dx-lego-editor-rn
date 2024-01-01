@@ -9,7 +9,7 @@ import MenuList, { MenuListDataProps } from '@/components/MenuList'
 import Button from '@/components/Button'
 
 
-const Settings: FC = () => {
+const Mine: FC = () => {
   const { userProps } = useSelector<GlobalState, UserState>(store => store.user)
 
   const menuListData: MenuListDataProps[] = [{
@@ -87,4 +87,4 @@ const Settings: FC = () => {
   )
 }
 
-export default Settings
+export default Mine
