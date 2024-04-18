@@ -10,6 +10,16 @@ export type GlobalState = {
 export default configureStore({
   reducer: {
     dynamicConstants: dynamicConstantsReducer,
+
     user: userReducer,
+  },
+
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ['user/setError'],
+        ignoredPaths: ['user.error'],
+      }
+    })
   }
 })

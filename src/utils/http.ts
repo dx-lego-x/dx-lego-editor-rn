@@ -2,7 +2,9 @@ import axios, { AxiosInstance, AxiosResponse } from 'axios'
 import { BaseResponse, HttpErrorDetail } from '@/types/base'
 import localStorage from './localStorage'
 
-export const DEFAULT_BASE_URL = 'http://localhost:7001'
+export const DEFAULT_TOKEN_INVALID_ERRNO = 100401
+// export const DEFAULT_BASE_URL = 'http://localhost:7001'
+export const DEFAULT_BASE_URL = 'http://10.178.102.20:7001'
 export const DEFAULT_TOKEN_KEY = 'token'
 
 const instanceMap = new Map<string, AxiosInstance>()
@@ -40,6 +42,7 @@ instance.interceptors.request.use(async (config) => {
 
 instance.interceptors.response.use((resp: AxiosResponse<BaseResponse<any>>) => {
   const httpCode = resp.status
+  console.log('rawResp -> ', resp.status, resp.statusText)
   if (httpCode === 200) {
     const { errno, data, message } = resp.data
     if (errno === 0) {
